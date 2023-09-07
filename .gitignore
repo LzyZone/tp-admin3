@@ -1,1 +1,5 @@
 .idea
+vendor
+Public/.DS_Store
+Application/Runtime
+Uploads

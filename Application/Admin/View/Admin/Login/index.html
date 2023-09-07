@@ -1,0 +1,93 @@
+<extend name="Public:base" />
+<block name="style">
+  <link rel="stylesheet" type="text/css" href="__ADMIN__/h-ui.admin.pro.iframe/css/H-ui.login.css" />
+</block>
+
+<block name="main">
+  <div class="login-container">
+    <div class="header"></div>
+    <div class="loginWraper">
+      <div class="loginBox">
+        <form id="form-admin-login" class="form form-horizontal" action="index.html" method="post">
+          <div class="row clearfix">
+            <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+            <div class="form-controls col-xs-7">
+              <input name="user_name" type="text" placeholder="请输入账号" class="input-text size-L">
+            </div>
+          </div>
+          <div class="row clearfix">
+            <label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+            <div class="form-controls col-xs-7">
+              <input name="user_pwd" type="password" placeholder="请输入密码" class="input-text size-L">
+            </div>
+          </div>
+          <div class="row clearfix">
+            <div class="form-controls col-xs-7 col-xs-offset-3">
+              <input name="code" class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码'}" onclick="if(this.value=='验证码'){this.value='';}" maxlength="5" value="" style="width:150px;">
+              <img src="{$data.verify_url}" class="verify-code-img" data-src="{$data.verify_url}"/>
+            </div>
+          </div>
+
+          <div class="row clearfix">
+            <div class="form-controls col-xs-8 col-xs-offset-3">
+              <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+              <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="footer">Copyright {$data.copyright|default=''}</div>
+  </div>
+
+  <include file="Public:footer" />
+  <script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+  <script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/validate-methods.js"></script>
+  <script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/messages_zh.js"></script>
+  <script type="text/javascript">
+    $(function(){
+      /* 表单验证，提交 */
+      $("#form-admin-login").validate({
+        rules: {
+          user_name: {
+            required:true,
+          },
+          user_pwd: {
+            required:true
+          },
+          code: {
+            required:true,
+          }
+        },
+        messages: {
+          user_name: {
+            required: "请输入登录账号"
+          },
+          user_pwd: {
+            required: "请输入登录密码"
+          },
+          code: {
+            required: "请输入验证码"
+          },
+        },
+        onkeyup: false,
+        focusCleanup: false,
+        submitHandler: function(form) {
+          layer.load(1);
+          //在这里执行表单提交
+          $.post('',$(form).serialize(),function (data){
+            layer.closeAll();
+            console.log(data)
+            if(data.status == 'y'){
+              layer.msg(data.msg,{icon:1},function (){
+                window.location.href = data.url;
+              })
+            }else{
+              layer.msg(data.msg,{icon:2})
+            }
+          })
+        }
+      });
+    });
+  </script>
+</block>

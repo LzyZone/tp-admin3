@@ -1,0 +1,88 @@
+<extend name="Public:base" />
+<block name="style">
+	<style type="text/css">
+		.form-horizontal .form-label{text-align: right}
+	</style>
+</block>
+
+<block name="main">
+
+	<div class="wap-container">
+		<div class="panel">
+			<div class="panel-body">
+				<form action="" method="post" class="form form-horizontal" id="my-form">
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>上级菜单：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select class="select" size="1" name="pid">
+							<option value="0">一级菜单</option>
+							{$options}
+						</select>
+						</span>
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>菜单名称：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<textarea class="textarea" name="content"></textarea>
+						<p class="f-12 c-999">格式：菜单名称 模块名/控制器名/方法名，用回车分割多个</p>
+						<p class="f-12 c-999">
+							<div class="f-12 c-999">例如：</div>
+							<div class="f-12 c-999">菜单管理 admin/menu/index</div>
+							<div class="f-12 c-999">添加菜单 admin/menu/add</div>
+							<div class="f-12 c-999">编辑菜单菜单 admin/menu/edit</div>
+						</p>
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>节点类型：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<div class="radio-box">
+							<input type="radio" id="is-parent-0" name="is_parent" value="0" <eq name="data.is_parent" value="0">checked="checked"</eq> >
+							<label for="is-parent-0">同级节点</label>
+						</div>
+
+						<div class="radio-box">
+							<input type="radio" id="is-parent-1" name="is_parent" value="1" <eq name="data.is_parent" value="1">checked="checked"</eq>  >
+							<label for="is-parent-1">存在子节点(第一个为父节点，其余都是子节点)</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+						<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提   交&nbsp;&nbsp;" style="width:200px">
+						<a onclick="parent.layer.closeAll();" class="btn btn-default radius">取 消</a>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<include file="Public:footer" />
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript">
+		$("#my-form").validate({
+			rules:{
+				content:{required:true}
+			},
+			messages:{
+				content:{required:'请输入菜单名称'}
+			},
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				$(form).ajaxSubmit();
+				// var index = parent.layer.getFrameIndex(window.name);
+				// parent.location.replace(parent.location.href)
+				// parent.layer.close(index);
+			}
+		});
+	</script>
+</block>

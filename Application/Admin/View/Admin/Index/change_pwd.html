@@ -1,0 +1,77 @@
+<extend name="Public:base" />
+<block name="style">
+	<style type="text/css">
+		.form-horizontal .form-label{text-align: right}
+	</style>
+</block>
+
+<block name="main">
+
+	<div class="wap-container">
+		<div class="panel">
+			<div class="panel-body">
+				<form action="" method="post" class="form form-horizontal" id="my-form">
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>旧密码：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="password" name="old_pwd" placeholder="请输入旧密码" class="input-text">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>登录密码：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="password" name="user_pwd" id="user-pwd" placeholder="请输入登录密码" class="input-text">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>确认密码：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="password" name="user_pwd2" placeholder="请输入登录密码" class="input-text">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+						<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;确 定&nbsp;&nbsp;" style="width:200px">
+						<a onclick="parent.layer.closeAll();" class="btn btn-default radius">取 消</a>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<include file="Public:footer" />
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript">
+		$("#my-form").validate({
+			rules:{
+				old_pwd:{required:true},
+				user_pwd:{required:true,minlength:6},
+				user_pwd2:{required:true,equalTo:'#user-pwd'},
+			},
+			messages:{
+				old_pwd:{required:'请输入旧密码'},
+				user_pwd:{required:'请输入登录密码',minlength:'登录密码必须大于6为字符'},
+				user_pwd2:{required:'请输入登录密码',equalTo:'两次密码输入不一致'},
+			},
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				$(form).ajaxSubmit(function (data){
+					if(data.status == 'y'){
+						layer.msg(data.msg,{icon:1},function (){
+							parent.window.location.href = data.url;
+						})
+					}else{
+						layer.msg(data.msg,{icon:2})
+					}
+				});
+			}
+		});
+	</script>
+</block>

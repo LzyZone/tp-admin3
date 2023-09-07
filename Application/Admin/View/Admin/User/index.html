@@ -1,0 +1,58 @@
+﻿<extend name="Public:base" />
+<block name="main">
+	<div class="wap-container">
+		{:nav_path()}
+
+		<article class="Hui-admin-content clearfix">
+			<div class="panel mt-20">
+				<div class="panel-body">
+					<div class="clearfix">
+						<span class="f-l">
+							<a href="javascript:;" onclick="layer_show('添加用户','{$data.add_url}',700,500)" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a>
+						</span>
+						<span class="f-r">共有数据：<strong>{$data.total}</strong> 条</span>
+					</div>
+					<div class="clearfix mt-20">
+						<table class="table table-border table-bordered table-hover table-bg table-sort">
+							<thead>
+								<tr class="text-c">
+									<th width="10">ID</th>
+									<th width="100">用户名</th>
+									<th width="50">所属角色</th>
+									<th width="50">描述</th>
+									<th width="50">登录失败次数</th>
+									<th width="50">最后登录IP</th>
+									<th width="50">最后登录时间</th>
+									<th width="30">状态</th>
+									<th width="30">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+							<volist name="data.list" id="item">
+								<tr class="text-c va-m">
+									<td>{$item.id}</td>
+									<td>{$item.user_name}</td>
+									<td>{$item.role_name}</td>
+									<td>{$item.note}</td>
+									<td>
+										<a href="javascript:;" onclick="layer_confirm('{$item.reset_err_url}','确定重置错误次数？')" style="color: blue;text-decoration: underline">{$item.err_limit}</a>
+									</td>
+									<td>{$item.last_login_ip}</td>
+									<td>{$item.last_login_time}</td>
+									<td class="td-status">{$item.is_valid_label}</td>
+									<td class="td-manage">
+										{$item.action}
+									</td>
+								</tr>
+							</volist>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<include file="Public:footer" />
+
+</block>

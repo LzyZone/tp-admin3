@@ -1,0 +1,168 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit|ie-comp|ie-stand">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <link rel="Bookmark" href="favicon.ico" >
+  <link rel="Shortcut Icon" href="favicon.ico" />
+  <!--[if lt IE 9]>
+  <script type="text/javascript" src="__LIB__/html5.js"></script>
+  <script type="text/javascript" src="__LIB__/respond.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" type="text/css" href="__ADMIN__/h-ui/css/H-ui.css" />
+  <link rel="stylesheet" type="text/css" href="__ADMIN__/h-ui.admin.pro.iframe/css/h-ui.admin.pro.iframe.css" />
+  <link rel="stylesheet" type="text/css" href="__LIB__/Hui-iconfont/1.0.9/iconfont.css" />
+  <link rel="stylesheet" type="text/css" href="__ADMIN__/h-ui.admin.pro.iframe/skin/default/skin.css" id="skin" />
+  <link rel="stylesheet" type="text/css" href="__ADMIN__/business/css/style.css" />
+  <!--[if IE 6]>
+  <script type="text/javascript" src="__ADMIN__/h-ui/js/DD_belatedPNG_0.0.8a-min.js" ></script>
+  <script>DD_belatedPNG.fix('*');</script>
+  <![endif]-->
+  <!--/meta 作为公共模版分离出去-->
+  <title>{$site.title}</title>
+</head>
+<body>
+  <!--_menu 作为公共模版分离出去-->
+  <aside class="Hui-admin-aside-wrapper">
+    <div class="Hui-admin-logo-wrapper">
+      <a class="logo navbar-logo" href="{$site.url}">
+        <i class="va-m iconpic global-logo"></i>
+        <span class="va-m">{$site.title}</span>
+      </a>
+    </div>
+    <div class="Hui-admin-menu-dropdown bk_2">
+      <ul class="Hui-menu">
+        <!--菜单-->
+        <volist name="data.menus" id="menu">
+        <li class="Hui-menu-item">
+          <div class="Hui-menu-title"><i class="Hui-iconfont">{$menu.icon}</i> {$menu.name}<i class="Hui-iconfont Hui-admin-menu-dropdown-arrow"></i></div>
+          <if condition="count($menu.children) gt 0">
+          <!--子菜单-->
+          <ul class="Hui-menu-item-sub">
+            <volist name="menu.children" id="menu_child">
+            <li class="Hui-menu-item">
+              <div class="Hui-menu-title">
+                <a href="javascript:void(0)" data-title="{$menu_child.name}" data-href="{$menu_child.url}"><i class="Hui-iconfont"></i>{$menu_child.name}</a>
+              </div>
+            </li>
+            </volist>
+          </ul>
+          <!--\\子菜单-->
+          </if>
+        </li>
+        </volist>
+        <!--菜单-->
+      </ul>
+    </div>
+  </aside>
+  <div class="Hui-admin-aside-mask"></div>
+  <!--/_menu 作为公共模版分离出去-->
+
+  <div class="Hui-admin-dislpayArrow">
+    <a href="javascript:void(0);" onClick="displaynavbar(this)">
+      <i class="Hui-iconfont Hui-iconfont-left">&#xe6d4;</i>
+    </a>
+  </div>
+
+  <section class="Hui-admin-article-wrapper">
+    <!--_header 作为公共模版分离出去-->
+    <header class="Hui-navbar">
+      <div class="navbar">
+        <div class="container-fluid clearfix">
+          <nav id="Hui-topNav" class="nav navbar-nav">
+            <ul class="clearfix">
+              <li><a data-href="article-add.html" data-title="新增资讯" onclick="Hui_admin_tab(this)" href="javascript:;">新增资讯</a></li>
+              <li class="dropDown dropDown_hover">
+                <a class="dropDown_A" href="javascript:;">顶部菜单</a>
+                <ul class="dropDown-menu menu radius box-shadow">
+                  <li class="">
+                    <a href="#">二级导航</a>
+                  </li>
+                  <li class="">
+                    <a href="#">二级导航</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+          <nav id="Hui-userbar" class="nav navbar-nav navbar-userbar">
+            <ul class="clearfix">
+              <li>{$auth->role_name}</li>
+              <li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">{$auth->user_name}<i class="Hui-iconfont">&#xe6d5;</i></a>
+                <ul class="dropDown-menu menu radius box-shadow">
+                  <li><a href="javascript:;" onclick="layer_show('修改密码','{$data.change_pwd_url}',600,300)">修改密码</a></li>
+                  <li><a href="{$data.logout_url}">退出</a></li>
+                </ul>
+              </li>
+              <!--
+              <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+              -->
+
+              <li id="Hui-skin" class="dropDown dropDown_hover right">
+                <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+                <ul class="dropDown-menu menu radius box-shadow">
+                  <li><a href="javascript:;" data-val="default" title="默认（蓝色）">默认（深蓝）</a></li>
+                  <li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+                  <li><a href="javascript:;" data-val="red" title="红色">红色</a></li>
+                  <li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+                  <li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+                </ul>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <!--/_header 作为公共模版分离出去-->
+
+    <div id="Hui-admin-tabNav" class="Hui-admin-tabNav">
+      <div class="Hui-admin-tabNav-wp">
+        <ul id="min_title_list" class="acrossTab clearfix" style="width: 241px; left: 0px;">
+          <li class="active"><span title="我的桌面" data-href="welcome.html">我的桌面</span><em></em></li>
+        </ul>
+      </div>
+      <div class="Hui-admin-tabNav-more btn-group" style="display: none;">
+        <a id="js-tabNav-prev" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d4;</i></a>
+        <a id="js-tabNav-next" class="btn radius btn-default size-S" href="javascript:;"><i class="Hui-iconfont">&#xe6d7;</i></a>
+      </div>
+    </div>
+
+    <div id="iframe_box" class="Hui-admin-article">
+      <div class="show_iframe">
+        <iframe id="iframe-welcome" data-scrolltop="0" scrolling="yes" frameborder="0" src="{$data.welcome_url}"></iframe>
+      </div>
+    </div>
+  </section>
+  <div class="contextMenu" id="Huiadminmenu">
+    <ul>
+      <li id="closethis">关闭当前 </li>
+      <li id="closeother">关闭其他 </li>
+      <li id="closeall">关闭全部 </li>
+    </ul>
+  </div>
+  <!--_footer 作为公共模版分离出去-->
+  <script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.min.js"></script>
+  <script type="text/javascript" src="__LIB__/layer/3.1.1/layer.js"></script>
+  <script type="text/javascript" src="__ADMIN__/h-ui/js/H-ui.js"></script>
+  <script type="text/javascript" src="__LIB__/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+  <script type="text/javascript" src="__ADMIN__/h-ui.admin.pro.iframe/js/h-ui.admin.pro.iframe.js"></script>
+  <!--/_footer /作为公共模版分离出去-->
+
+  <!--请在下方写此页面业务相关的脚本-->
+  <script type="text/javascript" src="__ADMIN__/business/js/main.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    $(".Hui-admin-menu-dropdown .Hui-menu").Huifold({
+      titCell: '.Hui-menu-title',
+      mainCell: '.Hui-menu-item-sub',
+      type: 3,
+      className: 'open',
+      item: '.Hui-menu-item-first',
+    });
+  });
+  </script>
+</body>
+</html>

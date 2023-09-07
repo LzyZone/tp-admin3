@@ -1,0 +1,136 @@
+<extend name="Public:base" />
+<block name="style">
+	<style type="text/css">
+		.form-horizontal .form-label{text-align: right}
+	</style>
+</block>
+
+<block name="main">
+
+	<div class="wap-container">
+		<div class="panel">
+			<div class="panel-body">
+				<form action="" method="post" class="form form-horizontal" id="my-form">
+					<input type="hidden" name="id" value="{$data.id|default=0}">
+					<input type="hidden" name="old_pid" value="{$data.pid|default=0}">
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>上级菜单：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<span class="select-box">
+						<select class="select" size="1" name="pid">
+							<option value="0" selected>一级菜单</option>
+							{$options}
+						</select>
+						</span>
+					</div>
+				</div>
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3 text-r"><span class="c-red">*</span>菜单名称：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" value="{$data.name|default=''}" placeholder="菜单名称" name="name">
+					</div>
+				</div>
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>模块名：</label>
+					<div class="form-controls col-xs-8 col-sm-9 skin-minimal">
+						<input type="text" class="input-text" value="{$data.m|default='admin'}" placeholder="模块名" name="m">
+					</div>
+				</div>
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>控制器名：</label>
+					<div class="form-controls col-xs-8 col-sm-9 skin-minimal">
+						<input type="text" class="input-text" value="{$data.c|default=''}" placeholder="控制器名" name="c">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>方法名：</label>
+					<div class="form-controls col-xs-8 col-sm-9 skin-minimal">
+						<input type="text" class="input-text" value="{$data.a|default=''}" placeholder="方法名" name="a">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3">参数：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" placeholder="" name="param">
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>是否显示：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<div class="radio-box">
+							<input type="radio" id="is-display-1" name="is_display" value="1" <eq name="data.is_display" value="1">checked="checked"</eq>  >
+							<label for="is-display-1">是</label>
+						</div>
+						<div class="radio-box">
+							<input type="radio" id="is-display-0" name="is_display" value="0" <eq name="data.is_display" value="0">checked="checked"</eq> >
+							<label for="is-display-0">否</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>序号：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="number" class="input-text" value="{$data.sort|default=''}" placeholder="序号" name="sort">
+					</div>
+				</div>
+
+
+				<div class="row clearfix">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red"></span>icon：</label>
+					<div class="form-controls col-xs-8 col-sm-9">
+						<input type="text" class="input-text" placeholder="" name="icon" value="{$data.icon|default=''}">
+					</div>
+				</div>
+
+
+				<div class="row clearfix">
+					<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+						<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提   交&nbsp;&nbsp;" style="width:200px">
+						<a onclick="parent.layer.closeAll();" class="btn btn-default radius">取 消</a>
+					</div>
+				</div>
+			</form>
+			</div>
+		</div>
+	</div>
+	<include file="Public:footer" />
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript">
+		$("#my-form").validate({
+			rules:{
+				name:{required:true},
+				m:{required:true,},
+				c:{required:true,},
+				a:{required:true,}
+			},
+			messages:{
+				name:{required:'请输入菜单名称'},
+				m:{required:'请输入模块名'},
+				c:{required:'请输入控制器名'},
+				a:{required:'请输入方法名'},
+			},
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				$(form).ajaxSubmit(function (data){
+					if(data.status == 'y'){
+						layer.msg(data.msg,{icon:1},function (){
+							window.location.reload();
+						})
+					}else{
+						layer.msg(data.msg,{icon:2},function (){
+							window.location.reload();
+						})
+					}
+				});
+			}
+		});
+	</script>
+</block>

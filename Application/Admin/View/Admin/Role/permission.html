@@ -1,0 +1,106 @@
+﻿<extend name="Public:base" />
+<block name="style">
+	<style type="text/css">
+		.check-box, .radio-box{padding-left:30px !important;}
+	</style>
+</block>
+<block name="main">
+	<div class="wap-container">
+		<article class="Hui-admin-content clearfix">
+			<div class="panel">
+				<form method="post" id="my-form">
+					<input type="hidden" value="{$data.id|default=0}" name="id">
+				<div class="panel-body" style="margin-bottom: 80px">
+					<div class="clearfix">
+						<span class="f-l"></span>
+						<span class="f-r"></span>
+					</div>
+					<div class="clearfix mt-20">
+						<table class="table table-hover table-bg">
+							<thead>
+								<tr class="text-c">
+									<th width="120" class="skin-minimal text-l" colspan="2">
+										<div class="check-box" style="padding-right:unset;padding-left: 22px !important;">
+											<input type="checkbox" id="checkbox-all">
+											<label for="checkbox-all" style="line-height: 28px">全选/取消</label>
+										</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody class="box">
+								{$data.menus}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div style="position: fixed;bottom:0;width:100%;border-top:2px solid #eee;box-shadow:1px -1px 8px #eee;height:60px;background-color:#fff;text-align: center;display: flex;align-items: center;justify-content: center">
+					<button type="submit" name="btn" class="btn btn-primary radius" style="width:200px;">提 交</button>
+				</div>
+				</form>
+			</div>
+		</article>
+	</div>
+
+	<include file="Public:footer" />
+	<!--/请在上方写此页面业务相关的脚本-->
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/jquery.validate.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/validate-methods.js"></script>
+	<script type="text/javascript" src="__LIB__/jquery.validation/1.14.0/messages_zh.js"></script>
+	<script type="text/javascript">
+		$("#my-form").validate({
+			rules:{},
+			messages:{},
+			onkeyup:false,
+			focusCleanup:true,
+			success:"valid",
+			submitHandler:function(form){
+				$(form).ajaxSubmit(function (data){
+					if(data.status == 'y'){
+						layer.msg(data.msg,{icon:1},function (){
+							parent.window.location.reload();
+						})
+					}else{
+						layer.msg(data.msg,{icon:2})
+					}
+				});
+			}
+		});
+
+		$(function (){
+
+			$('#checkbox-all').on('ifClicked',function (){
+				let checked = !$(this).prop('checked');
+				if(checked){
+					$('.box input').iCheck('check');
+				}else{
+					$('.box input').iCheck('uncheck');
+				}
+			})
+
+			$('.box input').on('ifClicked',function (e){
+				let path = $(this).data('path');
+				let pid = $(this).data('pid');
+				let id = $(this).val();
+				let path_arr = path.toString().split(',');
+				let checked = !$(this).prop('checked');
+				console.log('id=',id,'path=',path,'pid=',pid,'checked=',checked)
+				$('.menu-group-'+path_arr[0]).each(function (){
+					let _id = $(this).val();
+					//父亲节点
+					if(path_arr.inArray(_id)){
+						//checked ? $(this).iCheck('check') : $(this).iCheck('uncheck');
+						if(checked)$(this).iCheck('check');
+					}else{
+						//查询子节点
+						let _path = $(this).data('path');
+						let _path_arr = _path.toString().replace(','+_id,'').split(',')
+						if(_path_arr.inArray(id)){
+							checked ? $(this).iCheck('check') : $(this).iCheck('uncheck');
+						}
+					}
+				})
+			})
+
+		})
+	</script>
+</block>

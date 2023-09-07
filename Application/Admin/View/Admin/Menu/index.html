@@ -1,0 +1,57 @@
+﻿<extend name="Public:base" />
+<block name="main">
+	<div class="wap-container">
+		{:nav_path()}
+
+		<article class="Hui-admin-content clearfix">
+			<div class="panel mt-20">
+				<div class="panel-body">
+					<div class="clearfix">
+						<span class="f-l">
+							<a href="javascript:;" onclick="layer_show('添加菜单','{$data.add_url}')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加菜单</a>
+							<a href="javascript:;" onclick="layer_show('批量添加菜单','{$data.batch_add_url}')" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe716;</i> 批量添加菜单</a>
+						</span>
+						<span class="f-r"></span>
+					</div>
+					<div class="clearfix mt-20">
+						<table class="table table-border table-bordered table-hover table-bg table-sort">
+							<thead>
+								<tr class="text-c">
+									<th width="10">ID</th>
+									<th width="200">菜单</th>
+									<th width="30">序号</th>
+									<th width="30">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{$data.tbody}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<include file="Public:footer" />
+	<!--/请在上方写此页面业务相关的脚本-->
+	<script type="text/javascript">
+		let setSortUrl = '{$data.set_sort_url}'
+		$(function (){
+			$('.js-sort').on('keyup',function (){
+				let val = $(this).val();
+				let old = $(this).data('value');
+				if(val != old){
+					let id = $(this).data('id');
+					let that = this;
+					$.post(setSortUrl+'?id='+id+'&val='+val,{},function (data){
+						if(data.status == 'y'){
+							$(that).data('value',val);
+						}
+					})
+				}
+				console.log(val,'==',old)
+			})
+		})
+	</script>
+</block>

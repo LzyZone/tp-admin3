@@ -108,7 +108,9 @@ class Mysql extends Driver
         }
 
         if ($strict || (!is_numeric($key) && !preg_match('/[,\'\"\*\(\)`.\s]/', $key))) {
-            $key = '`' . $key . '`';
+            if($key != '*'){
+                $key = '`' . $key . '`';
+            }
         }
         return $key;
     }

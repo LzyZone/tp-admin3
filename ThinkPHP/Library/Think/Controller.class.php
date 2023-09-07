@@ -230,6 +230,10 @@ abstract class Controller
             $type = C('DEFAULT_AJAX_RETURN');
         }
 
+        if(!$json_option){
+            $json_option = JSON_UNESCAPED_UNICODE;
+        }
+
         switch (strtoupper($type)) {
             case 'JSON':
                 // 返回JSON数据格式到客户端 包含状态信息
